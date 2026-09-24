@@ -5,28 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hornbill Tracking | ระบบติดตามนกกก</title>
 
-  <!-- Bootstrap 5 -->
+  <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-
-  <!-- Leaflet -->
+  <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-
-  <!-- Thai Font -->
+  <!-- Google Font (Kanit) -->
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --forest: #064b36;
       --forest-dark: #033727;
-      --forest-light: #0d8754;
-      --lime: #b9df2a;
       --yellow: #ffc51b;
-      --sky: #dff5ff;
       --navy: #0b2854;
-      --soft-blue: #eef7ff;
     }
 
     * {
@@ -39,25 +32,16 @@
       overflow-x: hidden;
       color: var(--navy);
       font-family: "Kanit", sans-serif;
-      background:
-        radial-gradient(circle at 75% 0%, rgba(255,255,255,.96), rgba(223,245,255,.70) 32%, transparent 58%),
-        linear-gradient(180deg, #a9e3ff 0%, #e4f8ff 44%, #d9f2e8 100%);
+      background-image: 
+        linear-gradient(rgba(230, 248, 255, 0.15), rgba(230, 248, 255, 0.15)),
+        url("background.png");
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: cover;
+      background-attachment: fixed;
     }
 
-    body::before {
-      position: fixed;
-      z-index: -1;
-      inset: auto 0 0;
-      height: 160px;
-      content: "";
-      opacity: .8;
-      background:
-        radial-gradient(ellipse at 10% 100%, #0b4d3b 0 16%, transparent 16.3%),
-        radial-gradient(ellipse at 22% 100%, #073d2f 0 13%, transparent 13.3%),
-        radial-gradient(ellipse at 87% 100%, #0a523d 0 18%, transparent 18.3%),
-        radial-gradient(ellipse at 98% 100%, #073d2f 0 13%, transparent 13.3%);
-    }
-
+    /* Sidebar Styles */
     .sidebar {
       position: fixed;
       z-index: 1050;
@@ -71,7 +55,7 @@
       color: #fff;
       overflow-y: auto;
       background: linear-gradient(180deg, #07513a 0%, #003c2c 100%);
-      box-shadow: 5px 0 20px rgba(0, 61, 43, .12);
+      box-shadow: 5px 0 20px rgba(0, 61, 43, .2);
     }
 
     .main-content {
@@ -103,26 +87,26 @@
     }
 
     .brand-title {
-      font-size: 25px;
+      font-size: 24px;
       font-weight: 700;
       line-height: 1.05;
     }
 
     .brand-subtitle {
-      font-size: 15px;
-      font-weight: 400;
+      font-size: 14px;
+      opacity: 0.85;
     }
 
     .side-nav {
-      margin-top: 36px;
+      margin-top: 30px;
     }
 
     .side-nav .nav-link {
       display: flex;
       gap: 14px;
       align-items: center;
-      padding: 14px 17px;
-      margin-bottom: 9px;
+      padding: 12px 16px;
+      margin-bottom: 8px;
       color: rgba(255,255,255,.9);
       font-size: 16px;
       border-radius: 10px;
@@ -140,27 +124,28 @@
     }
 
     .side-nav i {
-      font-size: 23px;
+      font-size: 22px;
     }
 
     .sidebar-bottom {
       margin-top: auto;
-      padding: 10px 16px;
-      font-size: 16px;
+      padding: 10px 10px;
+      font-size: 15px;
       line-height: 1.4;
     }
 
     .sidebar-bottom .line {
-      width: 62px;
+      width: 60px;
       height: 4px;
-      margin-top: 12px;
+      margin-top: 8px;
       background: var(--yellow);
       border-radius: 5px;
     }
 
+    /* Top Header Styles */
     .top-header {
       display: flex;
-      gap: 18px;
+      gap: 15px;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 18px;
@@ -168,50 +153,53 @@
 
     .header-title small {
       display: block;
-      font-size: 23px;
+      font-size: 21px;
       font-weight: 600;
       line-height: 1;
+      color: #0c3b28;
     }
 
     .header-title h1 {
       margin: 0;
       color: #071d50;
-      font-size: clamp(30px, 3.1vw, 51px);
+      font-size: clamp(28px, 2.8vw, 46px);
       font-weight: 800;
-      letter-spacing: 1px;
+      letter-spacing: 0.5px;
       line-height: 1.1;
     }
 
     .header-title p {
-      margin: 4px 0 0;
+      margin: 2px 0 0;
       color: #103577;
-      font-size: 18px;
+      font-size: 17px;
+      font-weight: 500;
     }
 
     .partner-box {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       align-items: center;
-      padding: 14px 17px;
-      background: rgba(255,255,255,.9);
-      border: 1px solid rgba(255,255,255,.9);
-      border-radius: 15px;
-      box-shadow: 0 7px 20px rgba(53, 117, 143, .12);
+      padding: 10px 15px;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 14px;
+      box-shadow: 0 6px 18px rgba(38, 109, 139, 0.12);
+      backdrop-filter: blur(5px);
     }
 
     .partner-name {
-      padding-right: 13px;
+      padding-right: 10px;
       color: #0b3c2a;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       line-height: 1.2;
-      border-right: 1px solid #bdd9ed;
+      border-right: 1px solid #cbdceb;
+      text-align: center;
     }
 
     .partner-name strong {
       display: block;
       color: #126a48;
-      font-size: 22px;
+      font-size: 20px;
       font-style: italic;
     }
 
@@ -219,89 +207,79 @@
       color: #fff;
       background: #087249;
       border: 0;
+      font-weight: 500;
     }
 
     .btn-export {
       color: #322400;
       background: var(--yellow);
       border: 0;
+      font-weight: 600;
     }
 
-    .btn-update:hover {
-      color: #fff;
-      background: #055a39;
-    }
+    .btn-update:hover { background: #055a39; color: #fff; }
+    .btn-export:hover { background: #e8ac00; }
 
-    .btn-export:hover {
-      background: #e8ac00;
-    }
-
+    /* Card Layouts with Glassmorphism */
     .dashboard-card,
     .map-card,
     .detail-card,
     .history-card {
       border: 0;
-      border-radius: 17px;
-      box-shadow: 0 8px 20px rgba(38, 109, 139, .12);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(6px);
+      box-shadow: 0 8px 20px rgba(38, 109, 139, 0.12);
     }
 
     .dashboard-card {
-      min-height: 133px;
-      overflow: hidden;
-      background: rgba(255,255,255,.91);
+      min-height: 125px;
     }
 
     .bird-avatar {
-      width: 78px;
-      height: 78px;
+      width: 72px;
+      height: 72px;
       object-fit: cover;
-      border: 4px solid #d6f1d4;
+      border: 3px solid #d6f1d4;
       border-radius: 50%;
     }
 
     .stat-icon {
       display: grid;
-      flex: 0 0 76px;
-      width: 76px;
-      height: 76px;
+      flex: 0 0 68px;
+      width: 68px;
+      height: 68px;
       color: #fff;
-      font-size: 38px;
+      font-size: 32px;
       border-radius: 50%;
       place-items: center;
     }
 
-    .icon-location {
-      background: linear-gradient(145deg, #289bf0, #0060c4);
-    }
-
-    .icon-battery {
-      background: linear-gradient(145deg, #2aa43b, #057a25);
-    }
-
-    .icon-temp {
-      background: linear-gradient(145deg, #ffc627, #e69200);
-    }
+    .icon-location { background: linear-gradient(145deg, #289bf0, #0060c4); }
+    .icon-battery { background: linear-gradient(145deg, #2aa43b, #057a25); }
+    .icon-temp { background: linear-gradient(145deg, #ffc627, #e69200); }
 
     .stat-label {
       color: #183976;
-      font-size: 19px;
+      font-size: 17px;
       font-weight: 600;
       line-height: 1.1;
     }
 
     .stat-value {
       color: #092322;
-      font-size: 33px;
+      font-size: 30px;
       font-weight: 800;
-      line-height: 1.05;
+      line-height: 1.1;
     }
 
     .stat-sub {
       color: #164078;
-      font-size: 16px;
+      font-size: 15px;
       line-height: 1.2;
     }
 
+    /* Map Component */
     .map-card {
       overflow: hidden;
     }
@@ -309,181 +287,118 @@
     .map-toolbar {
       position: absolute;
       z-index: 500;
-      top: 16px;
-      left: 16px;
-      padding: 9px 15px;
+      top: 14px;
+      left: 14px;
+      padding: 8px 14px;
       color: #0b315f;
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 600;
-      background: rgba(255,255,255,.94);
-      border-radius: 12px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.15);
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 10px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.15);
     }
 
     #map {
       width: 100%;
-      height: 392px;
+      height: 380px;
       background: #d7e8ca;
     }
 
-    .leaflet-popup-content-wrapper {
-      color: #073d2f;
-      font-family: "Kanit", sans-serif;
-      border-radius: 10px;
-    }
-
+    /* Detail Card */
     .detail-card .card-header,
     .history-card .card-header {
       color: #10336e;
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 700;
-      background: #fff;
+      background: transparent;
       border-bottom: 0;
-      border-radius: 17px 17px 0 0;
     }
 
     .bird-detail-image {
-      width: 142px;
-      height: 192px;
+      width: 130px;
+      height: 175px;
       object-fit: cover;
-      border-radius: 11px;
+      border-radius: 10px;
     }
 
     .detail-table {
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .detail-table td {
-      padding: 3px 8px;
+      padding: 4px 8px;
       vertical-align: middle;
-      border-bottom: 5px solid #fff;
+      border-bottom: 4px solid rgba(255,255,255,0.6);
     }
 
     .detail-table td:first-child {
-      width: 41%;
+      width: 42%;
       color: #0b3d7a;
-      background: #edf6ff;
+      background: rgba(237, 246, 255, 0.7);
     }
 
     .detail-table td:last-child {
       color: #0b285e;
       font-weight: 600;
-      background: #eef7ff;
+      background: rgba(238, 247, 255, 0.9);
     }
 
     .map-position-button {
       color: #07563e;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 600;
       background: #d9f1e4;
       border: 0;
     }
+    .map-position-button:hover {
+      background: #c2e8d1;
+    }
 
+    /* History Table */
     .table thead th {
       color: #15396f;
       font-weight: 600;
       white-space: nowrap;
-      background: #e5f3ff;
+      background: #e5f3ff !important;
     }
 
     .table tbody td {
       color: #173767;
       white-space: nowrap;
+      background: transparent;
     }
 
     .table-striped > tbody > tr:nth-of-type(odd) > * {
-      background: #f4f9fd;
+      background: rgba(244, 249, 253, 0.6);
     }
 
-    .history-card {
-      overflow: hidden;
-    }
-
-    .mobile-menu {
-      display: none;
-    }
+    .mobile-menu { display: none; }
 
     @media (max-width: 991.98px) {
-      .sidebar {
-        display: none;
-      }
-
-      .main-content {
-        margin-left: 0;
-        padding: 16px;
-      }
-
-      .mobile-menu {
-        display: inline-flex;
-      }
-
-      .top-header {
-        align-items: flex-start;
-      }
-
-      .partner-box {
-        display: none;
-      }
-    }
-
-    @media (max-width: 575.98px) {
-      .header-title small {
-        font-size: 16px;
-      }
-
-      .header-title p {
-        font-size: 14px;
-      }
-
-      .top-header .btn {
-        padding: 7px 10px;
-        font-size: 13px;
-      }
-
-      #map {
-        height: 330px;
-      }
-
-      .stat-value {
-        font-size: 27px;
-      }
-
-      .stat-icon {
-        flex-basis: 58px;
-        width: 58px;
-        height: 58px;
-        font-size: 29px;
-      }
+      .sidebar { display: none; }
+      .main-content { margin-left: 0; padding: 15px; }
+      .mobile-menu { display: inline-flex; }
+      .partner-box { display: none; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Sidebar -->
+  <!-- Sidebar Navigation -->
   <aside class="sidebar">
     <div class="text-center">
       <div class="brand-pin">
-        <img
-          src="https://commons.wikimedia.org/wiki/Special:FilePath/Great-Hornbill.jpg"
-          alt="นกกก"
-          onerror="this.src='https://placehold.co/160x160/0b533d/ffd52b?text=HORNBILL'">
+        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Great-Hornbill.jpg" alt="นกกก" onerror="this.src='https://placehold.co/160x160/0b533d/ffd52b?text=HORNBILL'">
       </div>
-
       <div class="brand-title">HORNBILL<br>TRACKING</div>
       <div class="brand-subtitle">ระบบติดตามนกกก</div>
     </div>
 
     <nav class="nav flex-column side-nav">
-      <a class="nav-link active" href="#home">
-        <i class="bi bi-house-fill"></i> หน้าหลัก
-      </a>
-      <a class="nav-link" href="#map-section">
-        <i class="bi bi-geo-alt-fill"></i> แผนที่ติดตาม
-      </a>
-      <a class="nav-link" href="#history-section">
-        <i class="bi bi-bar-chart-fill"></i> รายงาน
-      </a>
+      <a class="nav-link active" href="#home"><i class="bi bi-house-fill"></i> หน้าหลัก</a>
+      <a class="nav-link" href="#map-section"><i class="bi bi-geo-alt-fill"></i> แผนที่ติดตาม</a>
+      <a class="nav-link" href="#history-section"><i class="bi bi-bar-chart-fill"></i> รายงาน</a>
     </nav>
 
     <div class="sidebar-bottom">
@@ -492,20 +407,19 @@
     </div>
   </aside>
 
-  <!-- Main -->
+  <!-- Main Content Area -->
   <main class="main-content" id="home">
 
-    <!-- Header -->
+    <!-- Top Header -->
     <header class="top-header">
       <div class="d-flex gap-2 align-items-start">
         <button class="btn btn-success mobile-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
           <i class="bi bi-list fs-5"></i>
         </button>
-
         <div class="header-title">
           <small>ระบบติดตามนกกก</small>
           <h1>HORNBILL TRACKING</h1>
-          <p>“เทคโนโลยีเพื่อการอนุรักษ์ สู่อานาคตที่ยั่งยืน”</p>
+          <p>“เทคโนโลยีเพื่อการอนุรักษ์ สู่อนาคตที่ยั่งยืน”</p>
         </div>
       </div>
 
@@ -513,25 +427,17 @@
         <div class="partner-name">กรมอุทยานแห่งชาติ<br>สัตว์ป่า และพันธุ์พืช</div>
         <div class="partner-name"><strong>GISTDA</strong></div>
         <div class="partner-name">องค์การ<br>สวนสัตว์แห่งประเทศไทย</div>
-        <button class="btn btn-update" id="refreshBtn">
-          <i class="bi bi-arrow-clockwise"></i> อัปเดตข้อมูล
-        </button>
-        <button class="btn btn-export" id="exportBtn">
-          <i class="bi bi-download"></i> ส่งออก CSV
-        </button>
+        <button class="btn btn-update" id="refreshBtn"><i class="bi bi-arrow-clockwise"></i> อัปเดตข้อมูล</button>
+        <button class="btn btn-export" id="exportBtn"><i class="bi bi-download"></i> ส่งออก CSV</button>
       </div>
     </header>
 
-    <!-- Summary cards -->
+    <!-- Top Summary Cards Row -->
     <section class="row g-3 mb-3">
       <div class="col-xl-3 col-md-6">
         <div class="card dashboard-card">
           <div class="card-body d-flex align-items-center gap-3">
-            <img
-              id="birdAvatar"
-              class="bird-avatar"
-              src="https://commons.wikimedia.org/wiki/Special:FilePath/Great-Hornbill.jpg"
-              alt="นกกก">
+            <img id="birdAvatar" class="bird-avatar" src="https://commons.wikimedia.org/wiki/Special:FilePath/Great-Hornbill.jpg" alt="นกกก">
             <div>
               <div class="stat-label">รหัสติดตาม</div>
               <div class="stat-value" id="birdCode">KKOZ01</div>
@@ -544,12 +450,10 @@
       <div class="col-xl-3 col-md-6">
         <div class="card dashboard-card">
           <div class="card-body d-flex align-items-center gap-3">
-            <div class="stat-icon icon-location">
-              <i class="bi bi-geo-alt-fill"></i>
-            </div>
+            <div class="stat-icon icon-location"><i class="bi bi-geo-alt-fill"></i></div>
             <div>
               <div class="stat-label">ตำแหน่งล่าสุด</div>
-              <div class="stat-value fs-4" id="latestCoordinate">17.3345° N<br>98.9752° E</div>
+              <div class="stat-value fs-5" id="latestCoordinate">17.3345° N<br>98.9752° E</div>
               <div class="stat-sub" id="latestArea">อุทยานแห่งชาติแจ้ซ้อน<br>จ.ลำปาง</div>
             </div>
           </div>
@@ -559,9 +463,7 @@
       <div class="col-xl-3 col-md-6">
         <div class="card dashboard-card">
           <div class="card-body d-flex align-items-center gap-3">
-            <div class="stat-icon icon-battery">
-              <i class="bi bi-battery-charging"></i>
-            </div>
+            <div class="stat-icon icon-battery"><i class="bi bi-battery-charging"></i></div>
             <div>
               <div class="stat-value" id="batteryValue">81.25%</div>
               <div class="stat-label">ระดับแบตเตอรี่</div>
@@ -573,9 +475,7 @@
       <div class="col-xl-3 col-md-6">
         <div class="card dashboard-card">
           <div class="card-body d-flex align-items-center gap-3">
-            <div class="stat-icon icon-temp">
-              <i class="bi bi-thermometer-half"></i>
-            </div>
+            <div class="stat-icon icon-temp"><i class="bi bi-thermometer-half"></i></div>
             <div>
               <div class="stat-value" id="temperatureValue">15.50 °C</div>
               <div class="stat-label">อุณหภูมิอุปกรณ์</div>
@@ -585,13 +485,12 @@
       </div>
     </section>
 
-    <!-- Map / Detail -->
+    <!-- Map & Detail Section -->
     <section class="row g-3 mb-3" id="map-section">
       <div class="col-xl-8">
         <div class="card map-card h-100 position-relative">
           <div class="map-toolbar">
-            <i class="bi bi-map-fill text-success me-2"></i>
-            แผนที่ติดตาม <i class="bi bi-chevron-down ms-2"></i>
+            <i class="bi bi-map-fill text-success me-2"></i>แผนที่ติดตาม <i class="bi bi-chevron-down ms-1"></i>
           </div>
           <div id="map"></div>
         </div>
@@ -601,22 +500,14 @@
         <div class="card detail-card h-100">
           <div class="card-header d-flex justify-content-between align-items-center px-4 pt-3">
             <span><i class="bi bi-record-circle-fill text-success me-2"></i>ตำแหน่งล่าสุด</span>
-            <small class="fw-normal fs-6" id="updatedAt">
-              <i class="bi bi-stopwatch me-1"></i>อัปเดตล่าสุด: -
-            </small>
+            <small class="fw-normal text-muted fs-6" id="updatedAt"><i class="bi bi-stopwatch me-1"></i>อัปเดตล่าสุด: -</small>
           </div>
-
           <div class="card-body px-4 pt-2">
             <div class="row g-3">
-              <div class="col-sm-4 col-xl-4 text-center">
-                <img
-                  id="birdImage"
-                  class="bird-detail-image"
-                  src="https://commons.wikimedia.org/wiki/Special:FilePath/Great-Hornbill.jpg"
-                  alt="นกกก">
+              <div class="col-sm-4 text-center">
+                <img id="birdImage" class="bird-detail-image" src="https://commons.wikimedia.org/wiki/Special:FilePath/Great-Hornbill.jpg" alt="นกกก">
               </div>
-
-              <div class="col-sm-8 col-xl-8">
+              <div class="col-sm-8">
                 <table class="table table-borderless detail-table mb-0">
                   <tbody>
                     <tr><td>รหัสติดตาม</td><td id="detailCode">KKOZ01</td></tr>
@@ -626,22 +517,12 @@
                     <tr><td>ละติจูด</td><td id="detailLat">17.3345° N</td></tr>
                     <tr><td>ลองจิจูด</td><td id="detailLng">98.9752° E</td></tr>
                     <tr><td>พื้นที่</td><td id="detailArea">อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง</td></tr>
-                    <tr>
-                      <td>ระดับแบตเตอรี่</td>
-                      <td>
-                        <i class="bi bi-battery-full text-success me-1"></i>
-                        <span id="detailBattery">81.25%</span>
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>อุณหภูมิอุปกรณ์</td>
-                      <td><i class="bi bi-thermometer-half text-success me-1"></i><span id="detailTemp">15.50 °C</span></td>
-                    </tr>
+                    <tr><td>ระดับแบตเตอรี่</td><td><i class="bi bi-battery-full text-success me-1"></i><span id="detailBattery">81.25%</span></td></tr>
+                    <tr><td>อุณหภูมิอุปกรณ์</td><td><i class="bi bi-thermometer-half text-success me-1"></i><span id="detailTemp">15.50 °C</span></td></tr>
                   </tbody>
                 </table>
               </div>
             </div>
-
             <button class="btn map-position-button w-100 mt-3" id="focusMapBtn">
               <i class="bi bi-map-fill me-2"></i>ดูตำแหน่งบนแผนที่
             </button>
@@ -650,17 +531,14 @@
       </div>
     </section>
 
-    <!-- History -->
+    <!-- History Data Table Section -->
     <section id="history-section">
       <div class="card history-card">
-        <div class="card-header d-flex align-items-center justify-content-between px-3 py-2">
-          <span><i class="bi bi-clock-history me-2"></i>ประวัติตำแหน่ง</span>
-          <button class="btn btn-light border btn-sm" id="exportTableBtn">
-            <i class="bi bi-download me-1"></i>ส่งออก CSV
-          </button>
+        <div class="card-header d-flex align-items-center justify-content-between px-4 py-3">
+          <span><i class="bi bi-clock-history me-2 text-success"></i>ประวัติตำแหน่ง</span>
+          <button class="btn btn-light border btn-sm" id="exportTableBtn"><i class="bi bi-download me-1"></i>ส่งออก CSV</button>
         </div>
-
-        <div class="table-responsive px-3 pb-3">
+        <div class="table-responsive px-4 pb-3">
           <table class="table table-striped table-sm align-middle mb-0" id="historyTable">
             <thead>
               <tr>
@@ -682,7 +560,7 @@
     </section>
   </main>
 
-  <!-- Mobile sidebar -->
+  <!-- Mobile Offcanvas Menu -->
   <div class="offcanvas offcanvas-start text-bg-success" tabindex="-1" id="mobileSidebar">
     <div class="offcanvas-header">
       <h5 class="offcanvas-title">HORNBILL TRACKING</h5>
@@ -690,9 +568,9 @@
     </div>
     <div class="offcanvas-body">
       <nav class="nav flex-column">
-        <a class="nav-link text-white" href="#home">หน้าหลัก</a>
-        <a class="nav-link text-white" href="#map-section">แผนที่ติดตาม</a>
-        <a class="nav-link text-white" href="#history-section">รายงาน</a>
+        <a class="nav-link text-white" href="#home"><i class="bi bi-house-fill me-2"></i>หน้าหลัก</a>
+        <a class="nav-link text-white" href="#map-section"><i class="bi bi-geo-alt-fill me-2"></i>แผนที่ติดตาม</a>
+        <a class="nav-link text-white" href="#history-section"><i class="bi bi-bar-chart-fill me-2"></i>รายงาน</a>
       </nav>
     </div>
   </div>
@@ -702,74 +580,23 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 
   <script>
-    // ใส่ URL Google Apps Script ของคุณตรงนี้
+    // เชื่อมต่อ Google Apps Script API ตามที่คุณต้องการ
     const API_URL = "https://script.google.com/macros/s/AKfycbwZPgebby-VcBqA_y089FfcuzT-RuAwqeaMEUDx4X6uKLT5SvZ4yKVXbXSK-TZaQZaljg/exec";
 
-    // ข้อมูลตัวอย่าง: ใช้กรณี API ส่งข้อมูลไม่ได้หรือกำลังทดสอบหน้าเว็บ
+    // ข้อมูลสำรอง (Mock Data) กรณีทดสอบหรือ API ขัดข้อง
     const mockData = [
-      {
-        code: "KKOZ01",
-        date: "21 ต.ค. 2569",
-        time: "14:35",
-        lat: 17.3345,
-        lng: 98.9752,
-        area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง",
-        battery: 81.25,
-        temp: 15.50
-      },
-      {
-        code: "KKOZ01",
-        date: "21 ต.ค. 2569",
-        time: "12:10",
-        lat: 17.3281,
-        lng: 98.9623,
-        area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง",
-        battery: 82.10,
-        temp: 16.20
-      },
-      {
-        code: "KKOZ01",
-        date: "21 ต.ค. 2569",
-        time: "09:45",
-        lat: 17.3116,
-        lng: 98.9417,
-        area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง",
-        battery: 83.40,
-        temp: 16.80
-      },
-      {
-        code: "KKOZ01",
-        date: "21 ต.ค. 2569",
-        time: "07:20",
-        lat: 17.2984,
-        lng: 98.9156,
-        area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง",
-        battery: 84.10,
-        temp: 17.10
-      },
-      {
-        code: "KKOZ01",
-        date: "20 ต.ค. 2569",
-        time: "16:30",
-        lat: 17.2862,
-        lng: 98.8931,
-        area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง",
-        battery: 85.00,
-        temp: 17.40
-      }
+      { code: "KKOZ01", date: "21 ต.ค. 2569", time: "14:35", lat: 17.3345, lng: 98.9752, area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง", battery: 81.25, temp: 15.50 },
+      { code: "KKOZ01", date: "21 ต.ค. 2569", time: "12:10", lat: 17.3281, lng: 98.9623, area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง", battery: 82.10, temp: 16.20 },
+      { code: "KKOZ01", date: "21 ต.ค. 2569", time: "09:45", lat: 17.3116, lng: 98.9417, area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง", battery: 83.40, temp: 16.80 },
+      { code: "KKOZ01", date: "21 ต.ค. 2569", time: "07:20", lat: 17.2984, lng: 98.9156, area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง", battery: 84.10, temp: 17.10 },
+      { code: "KKOZ01", date: "20 ต.ค. 2569", time: "16:30", lat: 17.2862, lng: 98.8931, area: "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง", battery: 85.00, temp: 17.40 }
     ];
 
     let trackingData = [...mockData];
-    let map;
-    let trackLine;
-    let latestMarker;
-    let pointLayer;
+    let map, trackLine, latestMarker, pointLayer;
 
     function initMap() {
-      map = L.map("map", {
-        zoomControl: true
-      }).setView([17.3140, 98.9400], 11);
-
+      map = L.map("map", { zoomControl: true }).setView([17.3140, 98.9400], 11);
       L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution: "&copy; OpenStreetMap contributors"
@@ -781,17 +608,10 @@
 
     function renderMap(data) {
       if (!data || data.length === 0) return;
-
       const orderedData = [...data].reverse();
-      const coordinates = orderedData.map(item => [
-        Number(item.lat),
-        Number(item.lng)
-      ]);
+      const coordinates = orderedData.map(item => [Number(item.lat), Number(item.lng)]);
 
-      if (trackLine) {
-        map.removeLayer(trackLine);
-      }
-
+      if (trackLine) map.removeLayer(trackLine);
       pointLayer.clearLayers();
 
       trackLine = L.polyline(coordinates, {
@@ -803,7 +623,6 @@
 
       orderedData.forEach((item, index) => {
         const isLatest = index === orderedData.length - 1;
-
         const marker = L.circleMarker([Number(item.lat), Number(item.lng)], {
           radius: isLatest ? 11 : 7,
           color: "#ffffff",
@@ -813,45 +632,31 @@
         });
 
         marker.bindPopup(`
-          <div style="font-family: Kanit, sans-serif; min-width: 150px">
+          <div style="font-family: Kanit, sans-serif; min-width: 140px">
             <strong>${item.code}</strong><br>
             ${isLatest ? "ตำแหน่งล่าสุด" : "ประวัติตำแหน่ง"}<br>
             ${Number(item.lat).toFixed(4)}, ${Number(item.lng).toFixed(4)}
           </div>
         `);
-
         marker.addTo(pointLayer);
-
-        if (isLatest) {
-          latestMarker = marker;
-        }
+        if (isLatest) latestMarker = marker;
       });
 
-      map.fitBounds(trackLine.getBounds(), {
-        padding: [45, 45],
-        maxZoom: 12
-      });
+      if (trackLine.getBounds().isValid()) {
+        map.fitBounds(trackLine.getBounds(), { padding: [40, 40], maxZoom: 12 });
+      }
     }
 
     function renderDashboard(data) {
       if (!data || data.length === 0) return;
-
       const latest = data[0];
 
       document.getElementById("birdCode").textContent = latest.code;
       document.getElementById("detailCode").textContent = latest.code;
-
-      document.getElementById("latestCoordinate").innerHTML =
-        `${Number(latest.lat).toFixed(4)}° N<br>${Number(latest.lng).toFixed(4)}° E`;
-
-      document.getElementById("latestArea").innerHTML =
-        latest.area.replace(" จ.", "<br>จ.");
-
-      document.getElementById("batteryValue").textContent =
-        `${Number(latest.battery).toFixed(2)}%`;
-
-      document.getElementById("temperatureValue").textContent =
-        `${Number(latest.temp).toFixed(2)} °C`;
+      document.getElementById("latestCoordinate").innerHTML = `${Number(latest.lat).toFixed(4)}° N<br>${Number(latest.lng).toFixed(4)}° E`;
+      document.getElementById("latestArea").innerHTML = latest.area.replace(" จ.", "<br>จ.");
+      document.getElementById("batteryValue").textContent = `${Number(latest.battery).toFixed(2)}%`;
+      document.getElementById("temperatureValue").textContent = `${Number(latest.temp).toFixed(2)} °C`;
 
       document.getElementById("detailDate").textContent = latest.date;
       document.getElementById("detailTime").textContent = `${latest.time} น.`;
@@ -860,13 +665,11 @@
       document.getElementById("detailArea").textContent = latest.area;
       document.getElementById("detailBattery").textContent = `${Number(latest.battery).toFixed(2)}%`;
       document.getElementById("detailTemp").textContent = `${Number(latest.temp).toFixed(2)} °C`;
-      document.getElementById("updatedAt").innerHTML =
-        `<i class="bi bi-stopwatch me-1"></i>อัปเดตล่าสุด: ${latest.date} ${latest.time} น.`;
+      document.getElementById("updatedAt").innerHTML = `<i class="bi bi-stopwatch me-1"></i>อัปเดตล่าสุด: ${latest.date} ${latest.time} น.`;
     }
 
     function renderHistory(data) {
       const tbody = document.getElementById("historyBody");
-
       tbody.innerHTML = data.map((item, index) => `
         <tr>
           <td class="text-center">${index + 1}</td>
@@ -882,17 +685,15 @@
       `).join("");
     }
 
-    // รองรับชื่อคอลัมน์ภาษาไทยหรือภาษาอังกฤษจาก Google Sheets
     function normalizeApiData(data) {
       if (!Array.isArray(data)) return [];
-
       return data.map(item => ({
         code: item.code || item.Code || item["รหัสติดตาม"] || "KKOZ01",
         date: item.date || item.Date || item["วันที่"] || "-",
         time: item.time || item.Time || item["เวลา"] || "-",
         lat: Number(item.lat || item.latitude || item.Latitude || item["ละติจูด"] || 0),
         lng: Number(item.lng || item.longitude || item.Longitude || item["ลองจิจูด"] || 0),
-        area: item.area || item.Area || item["พื้นที่"] || "ไม่ระบุพื้นที่",
+        area: item.area || item.Area || item["พื้นที่"] || "อุทยานแห่งชาติแจ้ซ้อน จ.ลำปาง",
         battery: Number(item.battery || item.Battery || item["ระดับแบตเตอรี่"] || 0),
         temp: Number(item.temp || item.temperature || item.Temperature || item["อุณหภูมิ"] || 0)
       })).filter(item => item.lat && item.lng);
@@ -903,67 +704,29 @@
         const response = await fetch(API_URL);
         const apiData = await response.json();
         const cleanData = normalizeApiData(apiData);
-
-        if (cleanData.length > 0) {
-          trackingData = cleanData;
-        } else {
-          trackingData = [...mockData];
-        }
+        trackingData = cleanData.length > 0 ? cleanData : [...mockData];
       } catch (error) {
-        console.warn("ไม่สามารถอ่าน API ได้ ใช้ข้อมูลตัวอย่างแทน", error);
+        console.warn("ไม่สามารถดึงข้อมูลจาก API ได้ ใช้ข้อมูลตัวอย่างแทน", error);
         trackingData = [...mockData];
       }
 
       renderDashboard(trackingData);
       renderHistory(trackingData);
       renderMap(trackingData);
-
       setTimeout(() => map.invalidateSize(), 300);
     }
 
     function exportCSV() {
-      const headers = [
-        "ลำดับ",
-        "รหัสติดตาม",
-        "วันที่",
-        "เวลา",
-        "ละติจูด",
-        "ลองจิจูด",
-        "พื้นที่",
-        "ระดับแบตเตอรี่",
-        "อุณหภูมิ"
-      ];
+      const headers = ["ลำดับ", "รหัสติดตาม", "วันที่", "เวลา", "ละติจูด", "ลองจิจูด", "พื้นที่", "ระดับแบตเตอรี่", "อุณหภูมิ"];
+      const rows = trackingData.map((item, index) => [index + 1, item.code, item.date, item.time, item.lat, item.lng, item.area, item.battery, item.temp]);
+      const csv = [headers.join(","), ...rows.map(row => row.map(val => `"${String(val).replaceAll('"', '""')}"`).join(","))].join("\n");
 
-      const rows = trackingData.map((item, index) => [
-        index + 1,
-        item.code,
-        item.date,
-        item.time,
-        item.lat,
-        item.lng,
-        item.area,
-        item.battery,
-        item.temp
-      ]);
-
-      const csv = [
-        headers.join(","),
-        ...rows.map(row =>
-          row.map(value => `"${String(value).replaceAll('"', '""')}"`).join(",")
-        )
-      ].join("\n");
-
-      const blob = new Blob(["\uFEFF" + csv], {
-        type: "text/csv;charset=utf-8;"
-      });
-
+      const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
-
       link.href = url;
       link.download = "hornbill_tracking.csv";
       link.click();
-
       URL.revokeObjectURL(url);
     }
 
@@ -972,14 +735,9 @@
     document.getElementById("exportTableBtn").addEventListener("click", exportCSV);
 
     document.getElementById("focusMapBtn").addEventListener("click", () => {
-      document.getElementById("map-section").scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
-
+      document.getElementById("map-section").scrollIntoView({ behavior: "smooth", block: "center" });
       if (latestMarker) {
-        const point = latestMarker.getLatLng();
-        map.setView(point, 13);
+        map.setView(latestMarker.getLatLng(), 13);
         latestMarker.openPopup();
       }
     });
