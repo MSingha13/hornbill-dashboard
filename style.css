@@ -23,6 +23,13 @@ body {
     box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
+/* กำหนดความสูงแผนที่ให้แสดงผลแน่นอน */
+#map {
+    height: 400px !important;
+    width: 100% !important;
+    z-index: 1;
+}
+
 .table th {
     font-weight: 600;
 }
